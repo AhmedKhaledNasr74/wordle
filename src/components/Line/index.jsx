@@ -4,7 +4,7 @@ const Line = ({ guess, solution, isFinal, isGameOver, index }) => {
     const WORD_LENGTH = 5;
     const tiles = [];
     for (let i = 0; i < WORD_LENGTH; i++) {
-        const tile = guess ? guess[i] : null;
+        const tile = guess ? guess[i] : "";
         let tileClass = "char text-uppercase shadow-sm";
 
         if (isFinal && guess?.length === 5) {
@@ -15,9 +15,13 @@ const Line = ({ guess, solution, isFinal, isGameOver, index }) => {
         }
 
         tiles.push(
-            <div className={tileClass} key={i}>
-                {tile}
-            </div>
+            <input
+                type="text"
+                className={tileClass}
+                key={i}
+                defaultValue={tile}
+                maxLength={1}
+            />
         );
     }
 
