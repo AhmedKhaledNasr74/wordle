@@ -44,16 +44,18 @@ const Game = () => {
         // console.log(solution);
         const handleType = (event) => {
             // if (isIWon === 1) return; no need for it now because of our modal
-
-            if (event.key === "Backspace") {
+            console.log(event.target.innerText);
+            const myEvent =
+                event.type === "keydown" ? event.key : event.target.innerText;
+            if (myEvent === "Backspace") {
                 //to handle backspace
                 setCurrentGuess(currentGuess?.slice(0, -1));
                 return;
             }
 
-            if (currentGuess?.length === 5 && event.key !== "Enter") return;
+            if (currentGuess?.length === 5 && myEvent !== "Enter") return;
 
-            if (event.key === "Enter") {
+            if (myEvent === "Enter") {
                 if (currentGuess?.length === 5) {
                     //deep copy
                     let newGuesses = [...guesses];
@@ -67,55 +69,104 @@ const Game = () => {
                 } else setMessage(true);
                 return;
             }
-            if (!event.key.match(/^[a-zA-Z]{1}$/)) return; // to enter characters only {After Enter}
-            setCurrentGuess(currentGuess + event.key.toLowerCase());
+            if (!myEvent.match(/^[a-zA-Z]{1}$/)) return; // to enter characters only {After Enter}
+            setCurrentGuess(currentGuess + myEvent.toLowerCase());
             setIsFinal(false);
         };
-
+        window.addEventListener("click", handleType);
         window.addEventListener("keydown", handleType);
         return () => {
             window.removeEventListener("keydown", handleType);
+            window.removeEventListener("click", handleType);
         };
     }, [currentGuess, guesses, isIWon]);
 
     return (
-        <div className="container vh-100 d-flex justify-content-center ">
-            <div className="board mt-5 pt-5 heightFitContnet position-relative">
-                {guesses.map((guess, i) => {
-                    const currentIndex = guesses.findIndex(
-                        (value) => value === ""
-                    );
-                    return i === currentIndex ? (
-                        <Line
-                            guess={currentGuess}
+        <div className="container vh-100  ">
+            <div className="game-wrabber">
+                <div className="board pt-5 heightFitContnet position-relative">
+                    {guesses.map((guess, i) => {
+                        const currentIndex = guesses.findIndex(
+                            (value) => value === ""
+                        );
+                        return i === currentIndex ? (
+                            <Line
+                                guess={currentGuess}
+                                solution={solution}
+                                isFinal={isFinal}
+                                key={i}
+                                index={i}
+                                isGameOver={isIWon}
+                            />
+                        ) : (
+                            <Line
+                                guess={guess}
+                                solution={solution}
+                                isFinal={true}
+                                key={i}
+                                index={i}
+                                isGameOver={isIWon}
+                            />
+                        );
+                    })}
+                    {message && (
+                        <Message message={message} setMessage={setMessage} />
+                    )}
+                    {isIWon !== 0 && (
+                        <InterActiveAlert
+                            playAgain={playAgain}
+                            isIWon={isIWon}
+                            setIsIWon={setIsIWon}
                             solution={solution}
-                            isFinal={isFinal}
-                            key={i}
-                            index={i}
-                            isGameOver={isIWon}
                         />
-                    ) : (
-                        <Line
-                            guess={guess}
-                            solution={solution}
-                            isFinal={true}
-                            key={i}
-                            index={i}
-                            isGameOver={isIWon}
-                        />
-                    );
-                })}
-                {message && (
-                    <Message message={message} setMessage={setMessage} />
-                )}
-                {isIWon !== 0 && (
-                    <InterActiveAlert
-                        playAgain={playAgain}
-                        isIWon={isIWon}
-                        setIsIWon={setIsIWon}
-                        solution={solution}
-                    />
-                )}
+                    )}
+                </div>
+                <div className="keyboard mx-auto mt-5">
+                    <div className="keyboard-row">
+                        <div id="Q">Q</div>
+
+                        <div id="W">W</div>
+
+                        <div id="E">E</div>
+
+                        <div id="R">R</div>
+
+                        <div id="T">T</div>
+
+                        <div id="Y">Y</div>
+
+                        <div id="U">U</div>
+
+                        <div id="I">I</div>
+
+                        <div id="O">O</div>
+
+                        <div id="P">P</div>
+                    </div>
+
+                    <div className="keyboard-row">
+                        <div>A</div>
+                        <div>S</div>
+                        <div>D</div>
+                        <div>F</div>
+                        <div>G</div>
+                        <div>H</div>
+                        <div>J</div>
+                        <div>K</div>
+                        <div>L</div>
+                    </div>
+                    <div className="keyboard-row">
+                        <div className="delete">Backspace</div>
+                        <div>Z</div>
+                        <div>X</div>
+                        <div>C</div>
+                        <div>V</div>
+                        <div>B</div>
+                        <div>N</div>
+                        <div>M</div>
+                        <div className="enter">Enter</div>
+                    </div>
+                </div>
             </div>
         </div>
     );

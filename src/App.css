@@ -38,3 +38,74 @@
     width: 75% !important;
     background-color: white !important;
 }
+
+.keyboard {
+    display: flex;
+    flex-direction: column;
+}
+
+.keyboard-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+}
+
+.keyboard-row div {
+    align-items: center;
+    background-color: #dce1ed;
+    color: #414a5e !important;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    color: inherit;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    flex: 1 1;
+    font-size: 17px;
+    font-weight: 700;
+    justify-content: center;
+    margin: 3px;
+    min-height: 46px;
+    padding: 3px;
+    text-decoration: inherit;
+    text-transform: capitalize;
+    transition: 0.2s;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.3);
+}
+
+.keyboard-row div:hover {
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    top: 3px;
+}
+
+.enter,
+.delete {
+    flex: 2 1;
+    padding: 3px;
+}
+
+@media (min-width: 992px) {
+    .keyboard {
+        width: 60%;
+    }
+}
+
+@media (max-width: 991px) {
+    .keyboard-row div {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 375px) {
+    .keyboard-row div {
+        font-size: 12px;
+        min-height: 42px;
+    }
+}
+
+@media (max-width: 320px) {
+    .keyboard-row div {
+        font-size: 12px;
+    }
+}
