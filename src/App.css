@@ -11,9 +11,27 @@
     text-align: center;
 }
 
+.putChar {
+    animation: putChar 0.2s linear;
+}
+
+@keyframes putChar {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
 .updatedChar {
     transform: rotateX(360deg);
-    transition: all 1.5s ease;
+    transition: all 1s ease;
 }
 
 .heightFitContnet {

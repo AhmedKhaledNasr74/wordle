@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Line from "../Line";
 import data from "./words.json";
 import Message from "../Messages/index.jsx";
@@ -12,7 +12,7 @@ const Game = () => {
     const [isFinal, setIsFinal] = useState(false);
     const [isIWon, setIsIWon] = useState(0); // -1 lose 0 playing 1 win
     const [message, setMessage] = useState(false);
-
+    const keyboard = useRef(null);
     const playAgain = () => {
         setGuesses(Array(6).fill(""));
         setCurrentGuess("");
@@ -73,11 +73,12 @@ const Game = () => {
             setCurrentGuess(currentGuess + myEvent.toLowerCase());
             setIsFinal(false);
         };
-        window.addEventListener("click", handleType);
+        keyboard.current.addEventListener("click", handleType);
+
         window.addEventListener("keydown", handleType);
         return () => {
             window.removeEventListener("keydown", handleType);
-            window.removeEventListener("click", handleType);
+            keyboard.current.removeEventListener("click", handleType);
         };
     }, [currentGuess, guesses, isIWon]);
 
@@ -121,7 +122,7 @@ const Game = () => {
                         />
                     )}
                 </div>
-                <div className="keyboard mx-auto mt-5">
+                <div className="keyboard mx-auto mt-5" ref={keyboard}>
                     <div className="keyboard-row">
                         <div id="Q">Q</div>
 
